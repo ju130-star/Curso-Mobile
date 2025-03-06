@@ -13,8 +13,8 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: Text('Exemplo Columns(Column) linhas(row)')),
         body:Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center, //eixo principal
+          crossAxisAlignment: CrossAxisAlignment.center, //eixo secunfario
           children: [
             Text("coluna 1"),
           Row(
@@ -26,6 +26,21 @@ class MainApp extends StatelessWidget {
           ],
       ),
       Text("Linha 3")
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: 200,
+            height: 200,
+            color: Colors.blue,
+          ),
+          Positioned(
+            top:20,
+            right: 20,
+            child: Icon(Icons.),
+          )
+        ],
+      )
       ],
         ),
         ),
