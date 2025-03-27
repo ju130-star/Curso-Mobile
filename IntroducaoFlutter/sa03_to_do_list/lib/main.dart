@@ -33,7 +33,9 @@ class _ListaTarefasState extends State<ListaTarefas> {
           ElevatedButton(
             onPressed: _adicionarTarefas, 
             child: Text("Adicionar Tarefa")),
-          Expanded(child: child)
+          Expanded(child: ListView.builder(
+              itemCount: _tarefas.length,
+              itemBuilder: (context,index)=>))
         ],
       ),),
   );
