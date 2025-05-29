@@ -6,7 +6,7 @@ class Consulta {
   final int petId;
   final DateTime dataHora; // obj é dateTime -> BD é string
   final String tipoServico;
-  final String? observacao;
+  final String observacao;
 
   //constructor
   Consulta({
@@ -14,7 +14,7 @@ class Consulta {
     required this.petId,
     required this.dataHora,
     required this.tipoServico,
-    this.observacao,
+    required this.observacao,
   });
 
   //toMpa -obj -> BD
@@ -37,8 +37,7 @@ class Consulta {
         map["data_hora"] as String,
       ), //converter String em Formato de DateTime
       tipoServico: map["tipo_servico"] as String,
-      observacao: map["observacao"] as String?,
-    ); //pode ser nulo
+      observacao: map["observacao"] as String,); 
   }
 
   //método formatar data e hora em formato Brasil

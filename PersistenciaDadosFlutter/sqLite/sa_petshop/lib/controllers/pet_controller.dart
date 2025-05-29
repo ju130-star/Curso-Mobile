@@ -1,8 +1,10 @@
+import 'package:sa_petshop/services/patshop_dbhelper.dart';
+
 import '../models/pet_model.dart';
-import '../services/pathshop_dbhelper.dart';
+
 
 class PetController {
-  final PetShopDBHelper _dbHelper = PetShoprDBHelper();
+  final PetShopDBHelper _dbHelper = PetShopDBHelper();
 
   //métodos controllers
 

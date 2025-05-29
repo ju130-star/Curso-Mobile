@@ -17,7 +17,7 @@ class Pet {
     required this.telefoneDono,
   });
 
-  //métodos de conversão -> obg -> BG : BG ->obj
+  //métodos de conversão -> obj-> BG : BG ->obj
 
   Map<String, dynamic> toMap() {
     return {
