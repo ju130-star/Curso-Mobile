@@ -8,7 +8,7 @@ class PetController {
 
   //métodos controllers
 
-  Future<int> cretePet(Pet pet) async {
+  Future<int> createPet(Pet pet) async {
     return _dbHelper.insertPet(pet);
   }
 

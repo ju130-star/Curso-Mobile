@@ -1,4 +1,4 @@
-import 'package:sa_petshop/models/cansulta_model.dart';
+import 'package:sa_petshop/models/consulta_model.dart';
 import 'package:sa_petshop/services/patshop_dbhelper.dart';
 
 class ConsultaController {

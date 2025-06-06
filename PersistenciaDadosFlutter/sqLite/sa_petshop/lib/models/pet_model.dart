@@ -29,7 +29,7 @@ class Pet {
     };
   }
 
-  factory Pet.frommap(Map<String, dynamic> map) {
+  factory Pet.fromap(Map<String, dynamic> map) {
     return Pet(
       id: map["id"] as int,
       nome: map["nome"] as String,
@@ -38,6 +38,4 @@ class Pet {
       telefoneDono: map["telefone_dono"] as String,
     );
   }
-
-  static fromMap(Map<String, dynamic> e) {}
 }

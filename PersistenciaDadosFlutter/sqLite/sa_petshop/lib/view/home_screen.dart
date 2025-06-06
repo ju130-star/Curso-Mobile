@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sa_petshop/view/cadastro_pet_screen.dart';
+import 'package:sa_petshop/view/detalhe_pet_screen.dart';
 
 import '../controllers/pet_controller.dart';
 import '../models/pet_model.dart';
@@ -58,8 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     return ListTile(
                       title: Text("${pet.nome} - ${pet.raca}"),
                       subtitle: Text("${pet.nomeDono} - ${pet.telefoneDono}"),
-                      //onTap: () => , //página de detalhes dp pet
-                    );
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>DetalhePetScreen(petId: pet.id!))), //página de detalhes dp pet
+                       onLongPress: () => _deletePet(pet.id!),  
+                  );
                   }),
               ),
           ),
@@ -70,5 +72,20 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Icon(Icons.add),
           ),
     );
+  }
+
+  void _deletePet(int id) async {
+    try {
+      await _controllerPet.deletePet(id);
+      await _controllerPet.readPets();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Pet Deletado com Sucesso"))
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Exception: $e"))
+      );
+      
+    }
   }
 }
