@@ -44,11 +44,13 @@ class Livro {
       titulo: map['titulo'] as String,
       autor: map['autor'] as String,
       isbn: map['isbn'] as String,
-      ano: map['ano'] as int,
+      ano: map['ano'] is int ? map['ano'] : int.parse(map['ano']),
       editora: map['editora'] as String,
       genero: map['genero'] as String,
       tipo: map['tipo'] as String,
-      quantidadeDisponivel: map['quantidade_disponivel'] as int,
+      quantidadeDisponivel: map['quantidade_disponivel'] is int
+          ? map['quantidade_disponivel']
+          : int.parse(map['quantidade_disponivel']),
       capa: map['capa'] as String,
     );
   }

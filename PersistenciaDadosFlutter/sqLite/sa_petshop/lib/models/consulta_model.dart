@@ -17,7 +17,7 @@ class Consulta {
     required this.observacao,
   });
 
-  //toMpa -obj -> BD
+  //toMpa -obj -> BDa
   Map<String, dynamic> toMap() {
     return {
       "id": id,
@@ -37,7 +37,8 @@ class Consulta {
         map["data_hora"] as String,
       ), //converter String em Formato de DateTime
       tipoServico: map["tipo_servico"] as String,
-      observacao: map["observacao"] as String,); 
+      observacao: map["observacao"] as String,
+    );
   }
 
   //método formatar data e hora em formato Brasil

@@ -89,7 +89,7 @@ class _DetalhePetScreenState extends State<DetalhePetScreen> {
                           title: Text(consulta.tipoServico),
                           subtitle: Text(consulta.dataHoraFormatada),
                           trailing: IconButton(
-                            onPressed: ()=>_deleteConsulta(consulta.id!),
+                            onPressed: ()=>_deletaeConsulta(consulta.id!),
                            icon: Icon(Icons.delete,color: Colors.red))
                         ),
                       );
