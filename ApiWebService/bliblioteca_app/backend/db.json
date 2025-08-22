@@ -1,0 +1,39 @@
+{
+    "usuarios":[
+        {
+            "id":1,
+            "nome":"João",
+            "email":"joao@gmail.com"
+        },
+        {
+            "id":2,
+            "nome":"Maria",
+            "email":"maria@gmail.com"
+        }
+    ],
+    "livros":[
+        {
+            "id":1,
+            "titulo":"O Senhor dos Anéis",
+            "autor":"J.R.R. Tolkien",
+            "disponivel":false
+        },
+        {
+            "id":2,
+            "titulo": "Memórias Póstumas de Brás Cubas",
+            "autor": "Machado de Assis",
+            "disponivel": true
+        }
+
+    ],
+    "emprestimos":[
+        {
+            "id":1,
+            "usuario_id":1,
+            "livros_id": 1,
+            "data_emprestimo": "2025-08-22",
+            "data_devolucao": "2025-09-01",
+            "devolvido": false
+        }
+    ]
+}
