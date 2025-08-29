@@ -11,14 +11,14 @@ class Usuario {
     required this.email,
   });
 
-  // método toJson
-  Map<String, dynamic> toJson() {
-    return {
+  // método 
+  // toJson ojt => 
+  Map<String, dynamic> toJson() => {
       'id': id,
       'nome': nome,
-      'email': email,
-    };
-  }
+      'email': email
+  };
+
 
   // método fromJson
   factory Usuario.fromJson(Map<String, dynamic> json) {

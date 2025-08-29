@@ -14,24 +14,20 @@ class Livro {
   });
 
   // método toJson
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toJson() => {
       'id': id,
       'titulo': titulo,
       'autor': autor,
       'disponivel': disponivel,
     };
-  }
+  
 
   // método fromJson
-  factory Livro.fromJson(Map<String, dynamic> json) {
-    return Livro(
-      id: json["id"]?.toString(),
-      titulo: json["titulo"].toString(),
-      autor: json["autor"].toString(),
-      disponivel: json["disponivel"] is bool
-          ? json["disponivel"]
-          : json["disponivel"]?.toString().toLowerCase() == 'true',
+  factory Livro.fromMap(Map<String, dynamic> map) => Livro(
+      id: map["id"]?.toString(),
+      titulo: map["titulo"].toString(),
+      autor: map["autor"].toString(),
+      disponivel: map["disponivel"] == 1 ? true : false,
     );
   }
-}
+

@@ -7,14 +7,14 @@ import 'package:http/http.dart' as http;
 class ApiService {
   //base url para conexão
   static const _baseUrl = "http://10.109.197.25:3013";
+  
 
   //métodos statics( método de classe e não de objeto)
 
   //GET -> listar todos os recusrsos
   static Future<List<dynamic>> getList(String path) async {
     final res = await http.get(Uri.parse("$_baseUrl/$path"));
-    if (res.statusCode == 200)
-      return json.decode(res.body); // se der certo interrompe o metodo
+    if (res.statusCode == 200) return json.decode(res.body); // se der certo interrompe o metodo
     //se não deu certo a conexão -> gera um erro
     throw Exception("Falha ao carregar Lista de $path"); //deve ser tratado
   }
@@ -42,20 +42,21 @@ class ApiService {
     throw Exception("Erro ao criar recurso em $path");
   }
 
-  //PUT -> atualizar um recurso
+    //PUT -> atualizar um recurso
   static Future<Map<String, dynamic>> put(
     String path,
+    String id, // Adicione o parâmetro id
     Map<String, dynamic> body,
   ) async {
     final res = await http.put(
-      //URL/Header/Body
       Uri.parse("$_baseUrl/$path/$id"),
       headers: {"Content-Type": "application/json"},
       body: json.encode(body),
     );
     if (res.statusCode == 200) return json.decode(res.body);
-    throw Exception("Erro ao atualizar recurso em $path");
+    throw Exception("Erro ao atualizar recurso em $path/$id");
   }
+  
   //DELETE -> deletar um recurso
   static delete (String path, String id) async {
     final res = await http.delete(

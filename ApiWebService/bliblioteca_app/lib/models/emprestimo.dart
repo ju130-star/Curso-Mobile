@@ -18,8 +18,7 @@ class Emprestimo {
   });
 
   // método toJson
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toJson() => {
       'id': id,
       'usuario_id': usuario_id,
       'livros_id': livros_id,
@@ -27,19 +26,17 @@ class Emprestimo {
       'data_devolucao': data_devolucao,
       'devolvido': devolvido,
     };
-  }
+  
 
   // método fromJson
-  factory Emprestimo.fromJson(Map<String, dynamic> json) {
+  factory Emprestimo.fromMap(Map<String, dynamic> map) {
     return Emprestimo(
-      id: json["id"]?.toString(),
-      usuario_id: json["usuario_id"]?.toString(),
-      livros_id: json["livros_id"]?.toString(),
-      data_emprestimo: json["data_emprestimo"].toString(),
-      data_devolucao: json["data_devolucao"]?.toString(),
-      devolvido: json["devolvido"] is bool
-          ? json["devolvido"]
-          : json["devolvido"]?.toString().toLowerCase() == 'true',
+      id: map["id"]?.toString(),
+      usuario_id: map["usuario_id"]?.toString(),
+      livros_id: map["livros_id"]?.toString(),
+      data_emprestimo: map["data_emprestimo"].toString(),
+      data_devolucao: map["data_devolucao"]?.toString(),
+      devolvido: map["devolvido"] == 1 ? true : false,
     );
   }
 }

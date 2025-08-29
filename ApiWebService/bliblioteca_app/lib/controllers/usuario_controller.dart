@@ -18,6 +18,17 @@ class UsuarioController {
     return Usuario.fromJson(usuario);
   }
   //post -> criar novo usuario
+  Future<Usuario> create(Usuario user) async {
+  final created = await ApiService.post("usuarios", user.toJson());
+  return Usuario.fromJson(created);
+}
   //put -> alterar um usuario
+Future<Usuario> update(Usuario user) async {
+  final updated = await ApiService.put("usuarios", user.id!, user.toJson());
+  return Usuario.fromJson(updated);
+}
   //delete -> deletar um usuario
+  Future<void> delete(String id) async {
+    await ApiService.delete("usuarios", id);
+  }
 }
