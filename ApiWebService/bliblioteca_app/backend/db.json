@@ -9,6 +9,11 @@
       "id": "2",
       "nome": "Maria",
       "email": "maria@gmail.com"
+    },
+    {
+      "id": "1756480259489",
+      "nome": "Julya",
+      "email": "julya@gmail.com"
     }
   ],
   "livros": [
@@ -32,6 +37,14 @@
       "livros_id": 1,
       "data_emprestimo": "2025-08-22",
       "data_devolucao": "2025-09-01",
+      "devolvido": false
+    },
+    {
+      "id": "1756480835725",
+      "usuario_id": "2",
+      "livros_id": "aaa",
+      "data_emprestimo": "22",
+      "data_devolucao": "22",
       "devolvido": false
     }
   ]

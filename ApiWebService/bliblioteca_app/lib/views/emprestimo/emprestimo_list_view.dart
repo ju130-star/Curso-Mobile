@@ -1,5 +1,6 @@
 import 'package:bliblioteca_app/controllers/Emprestimo_controller.dart';
 import 'package:bliblioteca_app/models/emprestimo.dart';
+import 'package:bliblioteca_app/views/emprestimo/emprestimo_form_view.dart';
 import 'package:flutter/material.dart';
 
 class EmprestimoListView extends StatefulWidget {
@@ -11,7 +12,7 @@ class EmprestimoListView extends StatefulWidget {
 
 class _EmprestimoListViewState extends State<EmprestimoListView> {
   final _controller = EmprestimoController();
-  List<Emprestimo> _Emprestimos = [];
+  List<Emprestimo> _emprestimos = [];
   bool _loading = true;
   List<Emprestimo> _filtroEmprestimo = [];
   final _buscaField = TextEditingController();
@@ -25,8 +26,8 @@ class _EmprestimoListViewState extends State<EmprestimoListView> {
   void _load() async {
     setState(() => _loading = true);
     try {
-      _Emprestimos = await _controller.fetchAll();
-      _filtroEmprestimo = _Emprestimos;
+      _emprestimos = await _controller.fetchAll();
+      _filtroEmprestimo = _emprestimos;
     } catch (e) {
       // tratar erro
     }
@@ -36,24 +37,25 @@ class _EmprestimoListViewState extends State<EmprestimoListView> {
   void _filtrar() {
     final busca = _buscaField.text.toLowerCase();
     setState(() {
-      _filtroEmprestimo = _Emprestimos.where((Emprestimo) {
-        return Emprestimo.usuario_id.toLowerCase().contains(busca) ||
-            Emprestimo.livros_id.toLowerCase().contains(busca) ||
-            Emprestimo.data_emprestimo.toLowerCase().contains(busca) ||
-            Emprestimo.data_devolucao.toLowerCase().contains(busca) ||
-            Emprestimo.devolvido?.toLowerCase() ?? ''.contains(busca);
+      _filtroEmprestimo = _emprestimos.where((emprestimo) {
+        return emprestimo.usuario_id.toString().contains(busca) ||
+            emprestimo.livros_id.toString().contains(busca) ||
+            emprestimo.data_emprestimo.toString().contains(busca) ||
+            emprestimo.data_devolucao.toString().contains(busca) ||
+            (emprestimo.devolvido == true ? 'sim' : 'não').contains(busca);
+
       }).toList();
     });
   }
 
-  void _delete(Emprestimo Emprestimo) async {
-    if (Emprestimo.id == null) return;
+  void _delete(Emprestimo emprestimo) async {
+    if (emprestimo.id == null) return;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text("Confirma Exclusão"),
         content: Text(
-          "Deseja realmente excluir o Emprestimo '${Emprestimo.usuario_id}'?",
+          "Deseja realmente excluir o Emprestimo '${emprestimo.usuario_id}'?",
         ),
         actions: [
           TextButton(
@@ -69,7 +71,7 @@ class _EmprestimoListViewState extends State<EmprestimoListView> {
     );
     if (confirm == true) {
       try {
-        await _controller.delete(Emprestimo.id!);
+        await _controller.delete(emprestimo.id!);
         _load();
       } catch (e) {
         // tratar erro
@@ -97,28 +99,26 @@ class _EmprestimoListViewState extends State<EmprestimoListView> {
                     child: ListView.builder(
                       itemCount: _filtroEmprestimo.length,
                       itemBuilder: (context, index) {
-                        final Emprestimo = _filtroEmprestimo[index];
+                        final emprestimo = _filtroEmprestimo[index];
                         return Card(
                           child: ListTile(
-                            title: Text(Emprestimo.usuario_id),
-                            subtitle: Text(Emprestimo.livros_id),
-                            subtitle: Text(
-                              DateTime.parse(
-                                Emprestimo.data_emprestimo,
-                              ).toLocal().toString(),
-                            ),
-                            subtitle: Text(
-                              DateTime.parse(
-                                Emprestimo.data_devolucao,
-                              ).toLocal().toString(),
-                            ),
-                            subtitle: Text(Emprestimo.devolvido),
+                            title: Text(emprestimo.usuario_id.toString()),
+                          subtitle: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text("Livro: ${emprestimo.livros_id}"),
+    Text("Empréstimo: ${emprestimo.data_emprestimo}"),
+    Text("Devolução: ${emprestimo.data_devolucao}"),
+    Text("Devolvido: ${emprestimo.devolvido ?? "Não"}"),
+  ],
+),
+
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 // Adicione aqui o botão de editar se tiver formulário de Emprestimo
                                 IconButton(
-                                  onPressed: () => _delete(Emprestimo),
+                                  onPressed: () => _delete(emprestimo),
                                   icon: Icon(Icons.delete, color: Colors.red),
                                 ),
                               ],
@@ -131,12 +131,17 @@ class _EmprestimoListViewState extends State<EmprestimoListView> {
                 ],
               ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Adicione aqui a navegação para o formulário de Emprestimo se existir
-        },
-        child: Icon(Icons.add),
-      ),
+       floatingActionButton: FloatingActionButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EmprestimoFormView()),
+    ).then((_) => _load()); // recarrega a lista depois que voltar do formulário
+  },
+  backgroundColor: Colors.blue[900], // fundo azul royal
+  foregroundColor: Colors.white,     // ícone branco
+  child: Icon(Icons.add),
+),
     );
   }
 }

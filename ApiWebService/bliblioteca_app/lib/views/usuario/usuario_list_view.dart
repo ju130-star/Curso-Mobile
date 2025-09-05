@@ -12,7 +12,7 @@ class UsuarioListView extends StatefulWidget {
 
 class _UsuarioListViewState extends State<UsuarioListView> {
   //atributos
-  final _controller = UsuarioController(); // chmar os controller
+  final _controller = UsuarioController(); // chamar os controller
   List<Usuario> _usuarios = [];
   bool _loading = true;
   List<Usuario> _filtroUsuario = []; //lista para filtrar usuários por algum critério
@@ -131,6 +131,8 @@ class _UsuarioListViewState extends State<UsuarioListView> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openForm(), // abre o formulário sem levar o usuario
+        backgroundColor: Colors.blue[900], // fundo azul royal
+        foregroundColor: Colors.white,     // ícone branco
         child: Icon(Icons.add),
       ),
     );

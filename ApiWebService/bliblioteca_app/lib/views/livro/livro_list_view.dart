@@ -1,5 +1,6 @@
 import 'package:bliblioteca_app/controllers/livro_controller.dart';
 import 'package:bliblioteca_app/models/livros.dart';
+import 'package:bliblioteca_app/views/livro/livro_form_view.dart';
 import 'package:flutter/material.dart';
 
 class LivroListView extends StatefulWidget {
@@ -42,6 +43,15 @@ class _LivroListViewState extends State<LivroListView> {
       }).toList();
     });
   }
+    void _openForm({Livro? livro}) async {
+    // livro entra no parametro, mas não é obrigatorio
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LivroFormView(livro: livro)),
+    );
+    _load();
+  }
+
 
   void _delete(Livro livro) async {
     if (livro.id == null) return;
@@ -98,7 +108,10 @@ class _LivroListViewState extends State<LivroListView> {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                // Adicione aqui o botão de editar se tiver formulário de livro
+                                IconButton(
+                                  onPressed: () => _openForm(livro: livro),
+                                  icon: Icon(Icons.edit),
+                                ),
                                 IconButton(
                                   onPressed: () => _delete(livro),
                                   icon: Icon(Icons.delete, color: Colors.red),
@@ -114,9 +127,9 @@ class _LivroListViewState extends State<LivroListView> {
               ),
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Adicione aqui a navegação para o formulário de livro se existir
-        },
+        onPressed: () => _openForm(), 
+        backgroundColor: Colors.blue[900], // fundo azul royal
+        foregroundColor: Colors.white,     // ícone branco
         child: Icon(Icons.add),
       ),
     );
