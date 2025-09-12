@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class RegistroView extends StatefulWidget {
@@ -11,11 +10,14 @@ class RegistroView extends StatefulWidget {
 
 class _RegistroViewState extends State<RegistroView> {
   //atributos
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final _emailField = TextEditingController();
   final _senhaField = TextEditingController();
-  final _confirmaSenhaField = TextEditingController();
-  
+  final _confirmarSenhaField = TextEditingController();
+  bool _ocultarSenha = true;
+  bool _ocultarConfirmarSenha = true;
+
+  //método para registrar novo usuário
   void _registrar() async{
     if(_senhaField.text != _confirmarSenhaField.text) return;
     try {
@@ -24,9 +26,10 @@ class _RegistroViewState extends State<RegistroView> {
         password: _senhaField.text);
       // após o registro , u usuário já é logado no sistema 
       // AuthView -> Joga ele pra tela de Tarefas
-    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context); //volta para tela de login
+    } on FirebaseAuthException catch (e) { //erro especificos do FirebaseAuth
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Falha ao registrar usuario: $e"))
+        SnackBar(content: Text("Erro ao Registrar: $e"))
       );
     }
   }
@@ -34,33 +37,50 @@ class _RegistroViewState extends State<RegistroView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Registro"),),
+      appBar: AppBar(title: Text('Registro')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
               controller: _emailField,
               decoration: InputDecoration(labelText: "Email"),
+              keyboardType: TextInputType.emailAddress,
             ),
-            TextField(
+            TextField(// adicionar o olho de ver senha
               controller: _senhaField,
-              decoration: InputDecoration(labelText: "Senha"),
-              obscureText: true,
+              decoration: InputDecoration(
+                labelText: "Senha",
+                suffix: IconButton(
+                  icon: Icon(_ocultarSenha ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () => setState(() {
+                      _ocultarSenha = !_ocultarSenha;
+                    })),
+                    
+              ),
+              obscureText: _ocultarSenha,
             ),
             TextField(
-              controller: _confirmaSenhaField,
-              decoration: InputDecoration(labelText: "Confirme a Senha"),
-              obscureText: true,
+              controller: _confirmarSenhaField,
+              decoration: InputDecoration(
+                labelText: "Confirmar Senha",
+                suffix: IconButton(
+                  icon: Icon(_ocultarConfirmarSenha ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () => setState(() {
+                      _ocultarConfirmarSenha = !_ocultarConfirmarSenha;
+                    })),
+                    
+              ),
+              obscureText: _ocultarConfirmarSenha,
             ),
-            SizedBox(height: 20),
-            _senhaField.text != _confirmaSenhaField.text
-            ? Text("Senhas não conferem!", style: TextStyle(color: Colors.red, fontSize: 12,))
+            SizedBox(height: 20,),
+            _senhaField.text != _confirmarSenhaField.text 
+            ? Text("As senhas devem ser Iguais", 
+              style: TextStyle(color: Colors.red, ), )
             : ElevatedButton(onPressed: _registrar, child: Text("Registrar")),
             TextButton(onPressed: () => Navigator.pop, child: Text("Voltar"))
           ],
-        ),
-      ),
+        ),),
     );
   }
 }

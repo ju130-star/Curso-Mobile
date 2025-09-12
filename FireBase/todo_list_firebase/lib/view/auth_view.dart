@@ -3,23 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:todo_list_firebase/view/login_view.dart';
 import 'package:todo_list_firebase/view/tarefas_view.dart';
 
-//Tela de autenticação de usuario já cadastrado(login/cadastro)
-class AuthView extends StatefulWidget {
 
+//Tela autenticação de Usuário Já Cadastrado
+class AuthView extends StatelessWidget {
+  
   const AuthView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>( //indentidificar o usuario instatantaneamente
-      //verifica se o usuario está logado ou não
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        //se o usuario estiver logado
-        if(snapshot.hasData){ //se tiver dados vai para a tarefa se não vai para login 
+    return  StreamBuilder<User?>( //identifica se tem um usuario cadastrado no cache instantaneamente
+      stream: FirebaseAuth.instance.authStateChanges(), 
+      builder: (context, snapshot){ //usa os dados do cache para decidir
+        if(snapshot.hasData){ // se tiver dados vai para Tarefas 
           return TarefasView();
-        }
+        }// se não tiver dados no cache vai para Login
         return LoginView();
-      },
-    );
+      });
   }
 }

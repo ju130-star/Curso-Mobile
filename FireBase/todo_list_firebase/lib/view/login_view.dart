@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list_firebase/view/registro_view.dart';
+
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -12,45 +12,52 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   //atributos
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance; //controlador das ações de autenticação do usuário
   final _emailField = TextEditingController();
   final _senhaField = TextEditingController();
-  
+  bool _ocultarSenha = true;
+
+  //método para fazer o login
   void _signIn() async{
     try {
-      await auth.signInWithEmailAndPassword(
-        email: _emailField.text, 
-        password: _senhaField.text
-       //Vericicar se o email e senha estão corretos pelo FireBase
-      );
+      await _auth.signInWithEmailAndPassword( //chama o método de autenticação do controller por email e senha
+        email: _emailField.text.trim(), 
+        password: _senhaField.text);
+      //Verifica se  conseguiu autenticação no fireBase (muda oa status do usuário)
+      // direciona automaticamente para a tela de tarefas (AuthView)
+
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Falha ao autenticar usuario: $e"))
+        SnackBar(content: Text("Falha ao Fazer Login: $e"))
       );
     }
   }
 
+  
+  //build da Tela
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(title: Text("login"),),
+      appBar: AppBar(title: Text("Login"),),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
               controller: _emailField,
-              decoration: InputDecoration(
-                labelText: "Email"
-              ),
+              decoration: InputDecoration(labelText: "Email"),
               keyboardType: TextInputType.emailAddress,
             ),
-            TextField(
+            TextField( //criar olho para ver senha
               controller: _senhaField,
               decoration: InputDecoration(
-                labelText: "Senha"
-              ),
-              obscureText: true,
+                labelText: "Senha",
+                suffix: IconButton(
+                  onPressed: ()=>setState(() {
+                    _ocultarSenha = !_ocultarSenha;
+                  }), 
+                  icon: Icon(_ocultarSenha ? Icons.visibility : Icons.visibility_off))),
+                obscureText: _ocultarSenha, // oculta a senha quando digitada
             ),
             SizedBox(height: 20,),
             ElevatedButton(
