@@ -127,7 +127,10 @@ final _movieFirestoreController = MovieFirestoreController();
     ),
     onRatingUpdate: (rating) async {
       // salva a avaliação no Firestore
-     _movieFirestoreController.updateMovieRating(movie.id, rating);
+      setState(() {
+        _movieFirestoreController.updateMovieRating(movie.id, rating);
+      });
+     
 
       // feedback visual
       ScaffoldMessenger.of(context).showSnackBar(
