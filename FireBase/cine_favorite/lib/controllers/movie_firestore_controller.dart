@@ -48,27 +48,57 @@ class MovieFirestoreController {
     final imageUrl =
         "https://image.tmdb.org/t/p/w500${movieData["poster_path"]}";
     final responseImg = await http.get(Uri.parse(imageUrl));
- //armazenar a imagem no diretotrio do aplicativo
- final imgDir = await getApplicationDocumentsDirectory();
- //baixando a imagem para o aplicativo
- final file = File("${imgDir.path}/${movieData["id"]}.jpg");
-  await file.writeAsBytes(responseImg.bodyBytes);
+    //armazenar a imagem no diretotrio do aplicativo
+    final imgDir = await getApplicationDocumentsDirectory();
+    //baixando a imagem para o aplicativo
+    final file = File("${imgDir.path}/${movieData["id"]}.jpg");
+    await file.writeAsBytes(responseImg.bodyBytes);
 
     //criar obj de movies
     final movie = Movie(
       id: movieData["id"],
       title: movieData["title"],
-      posterPath: file.toString(), //caminho local da imagem
+      posterPath: file.path.toString(), //caminho local da imagem
     );
-//adicionar o filme no firestore
+    //adicionar o filme no firestore
     await _db
         .collection("usuarios")
         .doc(currentUser!.uid)
         .collection("favorite_movies")
-        .doc(movie.id.toString()) //id do filme como id do doc
+        .doc(
+          movie.id.toString(),
+        ) //id do filme como id do doc, crio um objeto com id igual ao id do tmdb
         .set(movie.toMap()); //converte o obj em json para salvar no firestore
   }
 
   //deleter filme dos favoritos
+  void removeFavoriteMovie(int movieId) async {
+    await _db.collection("usuarios").doc(currentUser!.uid)
+    .collection("favorite_movies").doc(movieId.toString()).delete();
+  //deleta o filme da lista de favoritos a partir do id do filme
+
+  // deletar a imagem do filme
+  final imagePath = await getApplicationDocumentsDirectory();
+  final imageFile = File("${imagePath.path}/$movieId.jpg");
+try {
+    await imageFile.delete();
+} catch (e) {
+    print("Erro ao deletar imagem: $e");
+  
+}
+ }
+
   //update (alterar a nota do filme)
+void updateMovieRating(int movieId, double rating) async {
+  await _db.collection("usuarios").doc(currentUser!.uid)
+  .collection("favorite_movies").doc(movieId.toString())
+  .update({"rating": rating});
+  Future<void> updateMovieRating(String movieId, double rating) async {
+  await FirebaseFirestore.instance
+      .collection('movies')
+      .doc(movieId)
+      .update({'rating': rating});
+}
+
+}
 }

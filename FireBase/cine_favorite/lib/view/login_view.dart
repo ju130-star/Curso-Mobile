@@ -1,6 +1,7 @@
+
+import 'package:cine_favorite/view/registro_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -11,93 +12,71 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   //atributos
-  final FirebaseAuth _auth = FirebaseAuth.instance; //controlador das ações de autenticação do usuário
   final _emailField = TextEditingController();
   final _senhaField = TextEditingController();
-  bool _ocultarSenha = true;
+  final _authController = FirebaseAuth.instance; //controller para manipulação do usuário no firebase auth
+  bool _senhaOculta = true;
 
-  //método para fazer o login
-  void _signIn() async{
+  //método
+  void _login() async {
     try {
-      await _auth.signInWithEmailAndPassword( //chama o método de autenticação do controller por email e senha
-        email: _emailField.text.trim(), 
-        password: _senhaField.text);
-      //Verifica se  conseguiu autenticação no fireBase (muda oa status do usuário)
-      // direciona automaticamente para a tela de tarefas (AuthView)
-
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Falha ao Fazer Login: $e"))
+      //solicitar a autenticação do usuário
+      await _authController.signInWithEmailAndPassword(
+        email: _emailField.text.trim(),
+        password: _senhaField.text,
       );
+      //não precisa do Navigator, pois usaremso o StreamBuilder
+      // já faz o direcionamento automático para a tela de tarefas
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Falha ao Fazer Login $e")));
     }
   }
 
+  //build da Tela
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 231, 145, 17),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+      appBar: AppBar(title: Text("Login")),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _emailField,
+              decoration: InputDecoration(labelText: "Email"),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            TextField(
+              controller: _senhaField,
+              decoration: InputDecoration(
+                labelText: "Senha",
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _senhaOculta =
+                        !_senhaOculta; //inverte o valor da variável booleana
+                  }),
+                  icon: _senhaOculta
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
                 ),
               ),
-              SizedBox(height: 32),
-              TextField(
-                controller: _emailField,
-                decoration: InputDecoration(
-                  labelText: 'E-mail',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                ),
+              obscureText: _senhaOculta,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: _login, child: Text("Login")),
+            TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegistroView()),
               ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _senhaField,
-                obscureText: _ocultarSenha,
-                decoration: InputDecoration(
-                  labelText: 'Senha',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _ocultarSenha ? Icons.visibility_off : Icons.visibility,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _ocultarSenha = !_ocultarSenha;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 223, 130, 102),
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: _signIn,
-                  child: Text('Entrar'),
-                ),
-              ),
-            ],
-          ),
+              child: Text("Não tem uma conta? Registre-se"),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-

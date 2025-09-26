@@ -7,7 +7,7 @@ class Movie {
   final String title; //Titulo do Filme
   final String
   posterPath; //caminho da imagem do Poster (path de armazenamento interno)
-  double rating; //nota que o usuário dará ao filme (de 0 a 5)
+  final double rating; //nota que o usuário dará ao filme (de 0 a 5)
 
   //construtor
   Movie({

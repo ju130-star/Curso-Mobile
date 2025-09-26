@@ -10,119 +10,82 @@ class RegistroView extends StatefulWidget {
 
 class _RegistroViewState extends State<RegistroView> {
   //atributos
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final _emailField = TextEditingController();
   final _senhaField = TextEditingController();
-  final _confirmarSenhaField = TextEditingController();
-  bool _ocultarSenha = true;
-  bool _ocultarConfirmarSenha = true;
+  final _confSenhaField = TextEditingController();
+  final _authController = FirebaseAuth.instance; //controlador do Firebase Auth
+  bool _senhaOculta = true;
+  bool _confSenhaOculta = true;
 
-
-  //método para registrar novo usuário
+  //método _registrar
   void _registrar() async{
-    if(_senhaField.text != _confirmarSenhaField.text) return;
+    if(_senhaField.text != _confSenhaField.text) return;//interrompe o método se senhas diferentes
     try {
-      await _auth.createUserWithEmailAndPassword(
+      await _authController.createUserWithEmailAndPassword(
         email: _emailField.text.trim(), 
         password: _senhaField.text);
-      // após o registro , u usuário já é logado no sistema 
-      // AuthView -> Joga ele pra tela de Tarefas
-      Navigator.pop(context); //Fecha a Tela de Registro
-    } on FirebaseAuthException catch (e) { //erro especificos do FirebaseAuth
+      Navigator.pop(context); //fecha a tela de Registro
+      // é logado automaticamente após o cadastro
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao Registrar: $e"))
+        SnackBar(content: Text("Falha ao registrar: $e"))
       );
     }
   }
 
+  //build da tela
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Registrar',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+      appBar: AppBar(title: Text("Registro")),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _emailField,
+              decoration: InputDecoration(labelText: "Email"),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            TextField(
+              controller: _senhaField,
+              decoration: InputDecoration(
+                labelText: "Senha",
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _senhaOculta =
+                        !_senhaOculta; //inverte o valor da variável booleana
+                  }),
+                  icon: _senhaOculta
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
                 ),
               ),
-              SizedBox(height: 32),
-              TextField(
-                controller: _emailField,
-                decoration: InputDecoration(
-                  labelText: 'E-mail',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
+              obscureText: _senhaOculta,
+            ),
+            TextField(
+              controller: _confSenhaField,
+              decoration: InputDecoration(
+                labelText: "Senha",
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _confSenhaOculta =
+                        !_confSenhaOculta; //inverte o valor da variável booleana
+                  }),
+                  icon: _confSenhaOculta
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
                 ),
               ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _senhaField,
-                obscureText: _ocultarSenha,
-                decoration: InputDecoration(
-                  labelText: 'Senha',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _ocultarSenha ? Icons.visibility_off : Icons.visibility,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _ocultarSenha = !_ocultarSenha;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _confirmarSenhaField,
-                obscureText: _ocultarConfirmarSenha,
-                decoration: InputDecoration(
-                  labelText: 'Confirmar Senha',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _ocultarConfirmarSenha ? Icons.visibility_off : Icons.visibility,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _ocultarConfirmarSenha = !_ocultarConfirmarSenha;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepOrange,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: _registrar,
-                  child: Text('Registrar'),
-                ),
-              ),
-            ],
-          ),
+              obscureText: _confSenhaOculta,
+            ),
+
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: _registrar, child: Text("Registrar")),
+          ],
         ),
       ),
     );
   }
 }
-  
-

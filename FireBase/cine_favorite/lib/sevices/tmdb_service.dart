@@ -9,8 +9,10 @@ class TmdbService{
   static const String _apikey = "1fa5c2d59029fd1c438cc35713720604";
   static const String _baseUrl = "https://api.themoviedb.org/3";
   static const String _idioma = "pt-BR";
+  //static -> atributos da classe e não do Objeto
+  //método para buscar filmes populares
 
-  //método para buscar filme com base no texto
+  //método para buscar filme com base no texto (static) -> método que será executado pela classe e não pelo objeto
   static Future<List<Map<String, dynamic>>> schearchMovies(String query) async {
     //convertre a string em url
     final apiUrl = Uri.parse("$_baseUrl/search/movie?api_key=$_apikey&query=$query&language=$_idioma");
@@ -25,4 +27,5 @@ class TmdbService{
       throw Exception('Falha ao carregar filmes de API');
     }
   }
+  //método para buscar filmes populares
 }
