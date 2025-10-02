@@ -11,7 +11,27 @@ Construir um Aplicativo do Zero - O CineFavorite que permitirá criar uma conte 
 
 ## Levantamento de Requisitos
 - ### Funcionais
+- ✅ RF01: Registro de usuário com e-mail e senha.
+- ✅ RF02: Login de usuário autenticado.
+- ✅ RF03: Logout do sistema.
+- ✅ RF04: Busca de filmes por palavra-chave via API TMDB.
+- ✅ RF05: Listagem de filmes com título e poster.
+- ✅ RF06: Adicionar filmes aos favoritos.
+- ✅ RF07: Remover filmes dos favoritos.
+- ✅ RF08: Avaliar filme com nota personalizada.
+- ✅ RF09: Exibir galeria de filmes favoritos do usuário.
+- ✅ RF10: Atualizar nota de avaliação de um filme salvo.
+
 - ### Não Funcionais
+- ✅ RNF01: Plataforma responsiva (Android / iOS).
+- ✅ RNF02: Interface intuitiva baseada em protótipo Figma.
+- ✅ RNF03: Armazenamento seguro com Firestore DB.
+- ✅ RNF04: Autenticação segura com Firebase Authentication.
+- ✅ RNF05: Integração com API externa (TMDB).
+- ✅ RNF06: Versionamento do código via GitHub.
+- ✅ RNF07: Baixo tempo de resposta (até 2s em interações).
+- ✅ RNF08: Persistência de sessão (manter usuário logado).
+
 
 ## Recursos do Projeto
 - Linguagem de programação: Flutter/Dart
