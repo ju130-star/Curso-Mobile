@@ -125,14 +125,15 @@ final _movieFirestoreController = MovieFirestoreController();
       Icons.star,
       color: Colors.amber,
     ),
+     updateOnDrag: true,
     onRatingUpdate: (rating) async {
-      // salva a avaliação no Firestore
+      // Atualiza localmente para refletir imediatamente na UI
       setState(() {
-        _movieFirestoreController.updateMovieRating(movie.id, rating);
+        movie.rating = rating;
       });
-     
+      // Atualiza no Firestore
+      await _movieFirestoreController.updateMovieRating(movie.id, rating);
 
-      // feedback visual
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Você avaliou '${movie.title}' com $rating estrelas"),

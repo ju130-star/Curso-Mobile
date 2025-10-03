@@ -3,14 +3,14 @@
 ## Briefing
 Construir um Aplicativo do Zero - O CineFavorite que permitirá criar uma conte e buscar filmes em uma API, montar uma galeria pessoal de filmes favoritos, com poster(capa) e nota avaliativa do usuário para o filme.
 
-## Objetivos
+## 🚀 Objetivo
 - Criar uma Galeria Personalizada por Usuário de Filmes Favoritos
 - Buscar Filmes em uma API e Listar para selecionar filmes favoritos
 - Criação de Contas por Usuário
 - Listar filmes por palavra-chave
 
 ## Levantamento de Requisitos
-- ### Funcionais
+- ### 🧩 Funcionais
 - ✅ RF01: Registro de usuário com e-mail e senha.
 - ✅ RF02: Login de usuário autenticado.
 - ✅ RF03: Logout do sistema.
@@ -22,7 +22,7 @@ Construir um Aplicativo do Zero - O CineFavorite que permitirá criar uma conte 
 - ✅ RF09: Exibir galeria de filmes favoritos do usuário.
 - ✅ RF10: Atualizar nota de avaliação de um filme salvo.
 
-- ### Não Funcionais
+- ### 🔒 Não Funcionais
 - ✅ RNF01: Plataforma responsiva (Android / iOS).
 - ✅ RNF02: Interface intuitiva baseada em protótipo Figma.
 - ✅ RNF03: Armazenamento seguro com Firestore DB.
@@ -33,7 +33,7 @@ Construir um Aplicativo do Zero - O CineFavorite que permitirá criar uma conte 
 - ✅ RNF08: Persistência de sessão (manter usuário logado).
 
 
-## Recursos do Projeto
+##  🛠️ Recursos do Projeto
 - Linguagem de programação: Flutter/Dart
 - API TMDB: Base de dados para Filmes
 - Figma: Prototipagem
@@ -114,13 +114,13 @@ graph TD
 
 ```
 
-3. ### Fluxo
-Determinar o Caminhp Percorrido pelo Ator Para Executar uma Ação
+3. ###  🔄 Fluxo
+Determinar o Caminho Percorrido pelo Ator Para Executar uma Ação
 
 - Fluxo de Ação de Login
 
 ```mermaid
-
+graph TD
     A[Início] --> B{Tela de Login}
     B --> C[Inserir Email e Senha]
     C --> D{Validar as Credenciais}
@@ -129,6 +129,6 @@ Determinar o Caminhp Percorrido pelo Ator Para Executar uma Ação
 
 ```
 
-## Protopipagem
+## Prototipagem
 
 Link dos Protótipos: https://www.figma.com/design/NeCrbzn9ToTkVg3M8OYx0h/Untitled?node-id=2-13&t=KMsLqmQ6IGgZW3uf-1
