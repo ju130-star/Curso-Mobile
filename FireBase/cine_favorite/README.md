@@ -90,7 +90,7 @@ Ação que os Atores Podem Fazer
 ```mermaid
 
 graph TD
-   subgraph "Ações"~
+   subgraph "Ações"
      ac1([Registrar])
      ac2([Login])
      ac3([Logout])
