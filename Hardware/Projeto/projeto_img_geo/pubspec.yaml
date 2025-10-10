@@ -1,16 +1,18 @@
-name: sa_geolocator_maps
+name: projeto_img_geo
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.8.1
+  sdk: ^3.9.2
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_map: ^8.2.2
-  geolocator: ^14.0.2
+  image_picker: ^1.2.0
+  geolocator: ^12.0.0
+  geocoding: ^2.1.0
   intl: ^0.20.2
   latlong2: ^0.9.1
 
