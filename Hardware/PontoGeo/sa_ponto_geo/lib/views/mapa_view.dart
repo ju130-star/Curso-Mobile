@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import '../controllers/ponto_controller.dart';
 import '../controllers/login_controller.dart';
 
@@ -20,18 +20,23 @@ class _MapaViewState extends State<MapaView> {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Localização")),
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: initialPosition,
-          zoom: 16,
+      body: SafeArea(
+        child: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: initialPosition,
+            zoom: 16,
+          ),
+          markers: {
+            Marker(
+              markerId: const MarkerId("ponto"),
+              position: initialPosition,
+              infoWindow: const InfoWindow(title: "Ponto Registrado"),
+            )
+          },
+          onMapCreated: (controller) => _mapController = controller,
+          myLocationEnabled: true,
+          zoomControlsEnabled: false,
         ),
-        markers: {
-          Marker(
-            markerId: const MarkerId("ponto"),
-            position: initialPosition,
-            infoWindow: const InfoWindow(title: "Ponto Registrado"),
-          )
-        },
       ),
     );
   }

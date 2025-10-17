@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "89692010689",
+    "project_id": "pontogeo-ef2aa",
+    "storage_bucket": "pontogeo-ef2aa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89692010689:android:a93e200d8276b73c66fc40",
+        "android_client_info": {
+          "package_name": "com.example.sa_ponto_geo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0dori0-Gf0Sp328xHpIM464ji4cz3cNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

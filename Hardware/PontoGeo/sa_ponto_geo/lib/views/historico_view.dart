@@ -18,8 +18,11 @@ class _HistoricoViewState extends State<HistoricoView> {
   @override
   void initState() {
     super.initState();
-    final userId = _loginController._authService.currentUser?.uid ?? '';
-    _controller.carregarHistorico(userId);
+    // Pega o usuário logado de forma pública
+    final user = _loginController.user;
+    if (user != null) {
+      _controller.carregarHistorico(user.uid);
+    }
   }
 
   @override
@@ -30,22 +33,32 @@ class _HistoricoViewState extends State<HistoricoView> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const HomeView()),
-            );
+            Navigator.pop(context); // volta para a tela anterior (HomeView)
           },
         ),
       ),
-      body: _controller.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _controller.pontos.length,
-              itemBuilder: (_, index) {
-                final ponto = _controller.pontos[index];
-                return PontoCard(ponto: ponto);
-              },
-            ),
+      body: ValueListenableBuilder<bool>(
+        valueListenable: _controller.isLoadingNotifier,
+        builder: (_, isLoading, __) {
+          if (isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (_controller.pontos.isEmpty) {
+            return const Center(
+              child: Text("Nenhum ponto registrado."),
+            );
+          }
+
+          return ListView.builder(
+            itemCount: _controller.pontos.length,
+            itemBuilder: (_, index) {
+              final ponto = _controller.pontos[index];
+              return PontoCard(ponto: ponto);
+            },
+          );
+        },
+      ),
     );
   }
 }
