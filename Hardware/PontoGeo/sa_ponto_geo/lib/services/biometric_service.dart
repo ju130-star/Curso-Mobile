@@ -1,7 +1,8 @@
 
-import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart' show LocalAuthentication;
 
+// ...existing code...
 class BiometricService {
   final LocalAuthentication auth = LocalAuthentication();
 
@@ -15,10 +16,8 @@ class BiometricService {
       }
 
       final bool authenticated = await auth.authenticate(
-        localizedReason: 'Confirme sua identidade para registrar o ponto.',
-        options: const AuthenticationOptions(biometricOnly: true),
+        localizedReason: 'Confirme sua identidade...',
       );
-
       return authenticated;
     } on PlatformException catch (e) {
       throw Exception('Erro ao autenticar: ${e.message}');

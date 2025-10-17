@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
-import '../controllers/ponto_controller.dart';
-import '../controllers/login_controller.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 class MapaView extends StatefulWidget {
   final double latitude;
@@ -14,6 +13,7 @@ class MapaView extends StatefulWidget {
 }
 
 class _MapaViewState extends State<MapaView> {
+  GoogleMapController? googleMapController;
   @override
   Widget build(BuildContext context) {
     final initialPosition = LatLng(widget.latitude, widget.longitude);
@@ -31,9 +31,9 @@ class _MapaViewState extends State<MapaView> {
               markerId: const MarkerId("ponto"),
               position: initialPosition,
               infoWindow: const InfoWindow(title: "Ponto Registrado"),
-            )
+            ),
           },
-          onMapCreated: (controller) => _mapController = controller,
+          onMapCreated: (controller) => googleMapController = controller,
           myLocationEnabled: true,
           zoomControlsEnabled: false,
         ),

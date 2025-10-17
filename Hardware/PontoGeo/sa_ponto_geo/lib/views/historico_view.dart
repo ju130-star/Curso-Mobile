@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../controllers/historico_controller.dart';
 import '../controllers/login_controller.dart';
 import '../widgets/ponto_card.dart';
-import 'home_view.dart';
+// ...existing code...
 
 class HistoricoView extends StatefulWidget {
   const HistoricoView({super.key});
@@ -18,11 +18,20 @@ class _HistoricoViewState extends State<HistoricoView> {
   @override
   void initState() {
     super.initState();
-    // Pega o usuário logado de forma pública
-    final user = _loginController.user;
-    if (user != null) {
-      _controller.carregarHistorico(user.uid);
-    }
+    // agenda a carga para depois do primeiro frame (mais seguro)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = _loginController.nifController.text;
+      if (user.isNotEmpty) {
+        _controller.carregarHistorico(user);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // Se HistoricoController tiver dispose, descomente a linha abaixo:
+    // _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -33,7 +42,7 @@ class _HistoricoViewState extends State<HistoricoView> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // volta para a tela anterior (HomeView)
+            Navigator.pop(context);
           },
         ),
       ),
@@ -54,7 +63,11 @@ class _HistoricoViewState extends State<HistoricoView> {
             itemCount: _controller.pontos.length,
             itemBuilder: (_, index) {
               final ponto = _controller.pontos[index];
-              return PontoCard(ponto: ponto);
+              return PontoCard(
+                dataHora: ponto.dataHora,
+                latitude: ponto.latitude,
+                longitude: ponto.longitude,
+              );
             },
           );
         },
@@ -62,3 +75,5 @@ class _HistoricoViewState extends State<HistoricoView> {
     );
   }
 }
+
+

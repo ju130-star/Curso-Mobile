@@ -35,6 +35,8 @@ class PontoModel {
     );
   }
 
+  DateTime get dataHora => DateTime.parse('$data $hora');
+
   //  Representação de texto (debug)
   @override
   String toString() {
